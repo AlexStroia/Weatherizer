@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<searchable xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:defaultQueryHint="@string/search_country"
+    android:label="@string/app_name"
+    app:queryHint="@string/search_country"
+    android:iconifiedByDefault="false">
+
+</searchable>
