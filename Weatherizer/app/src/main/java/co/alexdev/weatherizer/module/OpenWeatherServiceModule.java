@@ -12,9 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module(includes = NetworkModule.class)
 public class OpenWeatherServiceModule {
 
-    static final String URL_SCHEME = "https";
-    static final String BASE_URL = "api.openweathermap.org";
-    static final String DATA_PATH = "data/2.5/";
+    private static final String URL_SCHEME = "https";
+    private static final String BASE_URL = "api.openweathermap.org";
+    private static final String DATA_PATH = "data/2.5/";
 
     @Provides
     public Retrofit retrofit(OkHttpClient okHttpClient) {
@@ -26,11 +26,11 @@ public class OpenWeatherServiceModule {
     }
 
     private Uri getEndpoint() {
-            return new Uri.Builder()
-                    .scheme(URL_SCHEME)
-                    .authority(BASE_URL)
-                    .path(DATA_PATH)
-                    .build();
+        return new Uri.Builder()
+                .scheme(URL_SCHEME)
+                .authority(BASE_URL)
+                .path(DATA_PATH)
+                .build();
     }
 
     @Provides

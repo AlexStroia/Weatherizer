@@ -6,6 +6,5 @@ import dagger.Component;
 
 @Component(modules = OpenWeatherServiceModule.class)
 public interface WeatherizerAppComponent {
-
     OpenWeatherService getOpenWeatherService();
 }
