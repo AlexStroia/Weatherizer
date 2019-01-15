@@ -13,9 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class OpenWeatherServiceModule {
 
     static final String URL_SCHEME = "https";
-    static final String BASE_URL = "maps.openweathermap.org";
-    static final String DATA_PATH = "data/";
-    static final String DATA_VERSION = "2.5/";
+    static final String BASE_URL = "api.openweathermap.org";
+    static final String DATA_PATH = "data/2.5/";
 
     @Provides
     public Retrofit retrofit(OkHttpClient okHttpClient) {
@@ -31,7 +30,6 @@ public class OpenWeatherServiceModule {
                     .scheme(URL_SCHEME)
                     .authority(BASE_URL)
                     .path(DATA_PATH)
-                    .path(DATA_VERSION)
                     .build();
     }
 
