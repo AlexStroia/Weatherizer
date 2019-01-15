@@ -1,4 +1,4 @@
-package co.alexdev.weatherizer.model;
+package co.alexdev.weatherizer.model.weather;
 
 public class Wind {
 

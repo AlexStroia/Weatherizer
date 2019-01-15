@@ -45,6 +45,9 @@ dependencies {
     /*Retrofit*/
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
+    /*OkhttpClient*/
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.0.0-RC1'
+
     // JSON Converter
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 

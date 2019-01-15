@@ -1,4 +1,7 @@
-package co.alexdev.weatherizer.model;
+package co.alexdev.weatherizer.model.response;
+
+import co.alexdev.weatherizer.model.weather.Main;
+import co.alexdev.weatherizer.model.weather.Wind;
 
 public class CityList {
 

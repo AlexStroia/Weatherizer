@@ -7,8 +7,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.SearchView;
 
+import java.util.Timer;
+
 import androidx.appcompat.app.AppCompatActivity;
 import co.alexdev.weatherizer.R;
+import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
+import co.alexdev.weatherizer.component.WeatherizerAppComponent;
+import co.alexdev.weatherizer.model.response.CityList;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 public class WeatherActivity extends AppCompatActivity {
@@ -17,6 +25,21 @@ public class WeatherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+
+        WeatherizerAppComponent component = DaggerWeatherizerAppComponent.create();
+
+        component.getOpenWeatherService().cityData("PLM").enqueue(new Callback<CityList>() {
+            @Override
+            public void onResponse(Call<CityList> call, Response<CityList> response) {
+                Timber.d(response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<CityList> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
