@@ -28,7 +28,7 @@ public abstract class NetworkBoundsResource<ResultType, RequestType> {
             /*If the input that we received from the Database is null, fetch new data from network
              * Note if its false start listening from the DB
              * Note on should fetch data, something might happen so we need to be aware of that
-              * */
+             * */
             if (shouldFetch(data)) {
                 fetchFromNetwork(databaseSource);
             } else {
@@ -45,15 +45,14 @@ public abstract class NetworkBoundsResource<ResultType, RequestType> {
     }
 
 
-
     /*Create a call
-    * Start to listen to the result from the database and set the value to loading
-    * Start to listen to the API CALL RESPONSE
-    * STOP TO LISTEN TO THOSE CALLS
-    * if the response is succesful, call savecallResult with the function processResponse
-    * processResponse return response.body
-    * After the call is saved (INSERTED TO DB), we start to fetch those data from the database, else means the response was not suffesull so we fetch from the db
-    * */
+     * Start to listen to the result from the database and set the value to loading
+     * Start to listen to the API CALL RESPONSE
+     * STOP TO LISTEN TO THOSE CALLS
+     * if the response is succesful, call savecallResult with the function processResponse
+     * processResponse return response.body
+     * After the call is saved (INSERTED TO DB), we start to fetch those data from the database, else means the response was not suffesull so we fetch from the db
+     * */
     private void fetchFromNetwork(final LiveData<ResultType> databaseSource) {
         LiveData<ApiResponse<RequestType>> apiResponse = createCall();
 
