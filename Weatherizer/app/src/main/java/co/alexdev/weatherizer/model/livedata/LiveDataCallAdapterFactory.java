@@ -5,7 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import androidx.lifecycle.LiveData;
-import co.alexdev.weatherizer.network.resource.ApiResponse;
+import co.alexdev.weatherizer.api.ApiResponse;
 import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 

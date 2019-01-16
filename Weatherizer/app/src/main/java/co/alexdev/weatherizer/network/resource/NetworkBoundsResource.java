@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import co.alexdev.weatherizer.api.ApiResponse;
 import co.alexdev.weatherizer.model.AppExecutor;
 
 public abstract class NetworkBoundsResource<ResultType, RequestType> {
@@ -99,5 +100,7 @@ public abstract class NetworkBoundsResource<ResultType, RequestType> {
     @NonNull
     @MainThread
     protected abstract LiveData<ApiResponse<RequestType>> createCall();
+
+    protected void onFetchFailed() { }
 
 }

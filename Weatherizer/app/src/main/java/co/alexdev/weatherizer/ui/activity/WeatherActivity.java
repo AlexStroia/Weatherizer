@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import co.alexdev.weatherizer.R;
 import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
 import co.alexdev.weatherizer.component.WeatherizerAppComponent;
-import co.alexdev.weatherizer.module.Repository;
+import co.alexdev.weatherizer.repo.Repository;
 import timber.log.Timber;
 
 public class WeatherActivity extends AppCompatActivity {

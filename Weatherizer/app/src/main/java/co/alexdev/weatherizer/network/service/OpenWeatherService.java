@@ -1,13 +1,13 @@
 package co.alexdev.weatherizer.network.service;
 
 import androidx.lifecycle.LiveData;
-import co.alexdev.weatherizer.model.response.CityList;
-import co.alexdev.weatherizer.network.resource.ApiResponse;
+import co.alexdev.weatherizer.api.CityResponse;
+import co.alexdev.weatherizer.api.ApiResponse;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface OpenWeatherService {
 
     @GET("forecast")
-    LiveData<ApiResponse<CityList>> cityData(@Query("q") String cityName);
+    LiveData<ApiResponse<CityResponse>> cityData(@Query("q") String cityName);
 }

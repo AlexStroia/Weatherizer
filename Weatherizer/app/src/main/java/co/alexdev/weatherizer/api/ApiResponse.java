@@ -1,4 +1,4 @@
-package co.alexdev.weatherizer.network.resource;
+package co.alexdev.weatherizer.api;
 
 import java.io.IOException;
 

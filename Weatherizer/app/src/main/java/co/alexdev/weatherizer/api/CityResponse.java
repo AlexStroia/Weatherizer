@@ -1,15 +1,15 @@
-package co.alexdev.weatherizer.model.response;
+package co.alexdev.weatherizer.api;
 
 import co.alexdev.weatherizer.model.weather.Main;
 import co.alexdev.weatherizer.model.weather.Wind;
 
-public class CityList {
+public class CityResponse {
 
     private String dt;
     private Main main;
     private Wind wind;
 
-    public CityList(String dt, Main main, Wind wind) {
+    public CityResponse(String dt, Main main, Wind wind) {
         this.dt = dt;
         this.main = main;
         this.wind = wind;
@@ -41,7 +41,7 @@ public class CityList {
 
     @Override
     public String toString() {
-        return "CityList{" +
+        return "CityResponse{" +
                 "dt='" + dt + '\'' +
                 ", main=" + main +
                 ", wind=" + wind +
