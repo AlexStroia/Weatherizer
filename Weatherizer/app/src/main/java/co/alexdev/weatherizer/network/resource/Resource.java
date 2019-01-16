@@ -1,4 +1,4 @@
-package co.alexdev.weatherizer.network;
+package co.alexdev.weatherizer.network.resource;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

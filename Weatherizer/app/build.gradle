@@ -28,6 +28,8 @@ android {
 
 dependencies {
     def room_version = "2.1.0-alpha03"
+    def lifecycle_version = "2.0.0"
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
@@ -41,6 +43,12 @@ dependencies {
     /*Dagger2*/
     implementation 'com.google.dagger:dagger:2.20'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.20'
+
+    // optional - ReactiveStreams support for LiveData
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version" // use -ktx for Kotlin
+
+    // optional - Test helpers for LiveData
+    testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
 
     /*Retrofit*/
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
