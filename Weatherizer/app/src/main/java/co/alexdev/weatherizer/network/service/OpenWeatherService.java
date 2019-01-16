@@ -1,4 +1,4 @@
-package co.alexdev.weatherizer.network;
+package co.alexdev.weatherizer.network.service;
 
 import co.alexdev.weatherizer.model.response.CityList;
 import retrofit2.Call;

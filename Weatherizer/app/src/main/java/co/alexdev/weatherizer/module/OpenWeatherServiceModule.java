@@ -2,7 +2,7 @@ package co.alexdev.weatherizer.module;
 
 import android.net.Uri;
 
-import co.alexdev.weatherizer.network.OpenWeatherService;
+import co.alexdev.weatherizer.network.service.OpenWeatherService;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
