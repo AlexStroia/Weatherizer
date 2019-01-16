@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import co.alexdev.weatherizer.module.AppExecutor;
+import co.alexdev.weatherizer.model.AppExecutor;
 
 public abstract class NetworkBoundsResource<ResultType, RequestType> {
 

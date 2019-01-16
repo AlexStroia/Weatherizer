@@ -1,5 +1,6 @@
 package co.alexdev.weatherizer.module;
 
+import co.alexdev.weatherizer.scope.WeatherizerAppScope;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.HttpUrl;
@@ -13,11 +14,15 @@ import timber.log.Timber;
 public class NetworkModule {
 
     @Provides
+    @WeatherizerAppScope
     public HttpLoggingInterceptor loggingInterceptor() {
-        return new HttpLoggingInterceptor(message -> Timber.i(message));
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Timber.i(message));
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        return loggingInterceptor;
     }
 
     @Provides
+    @WeatherizerAppScope
     public Interceptor interceptor() {
         return chain -> {
             Request originalRequest = chain.request();
@@ -34,6 +39,7 @@ public class NetworkModule {
     }
 
     @Provides
+    @WeatherizerAppScope
     public OkHttpClient okHttpClient(Interceptor apiKeyInterceptor, HttpLoggingInterceptor loggingInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(apiKeyInterceptor)

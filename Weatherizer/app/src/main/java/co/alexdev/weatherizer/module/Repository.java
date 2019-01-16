@@ -1,19 +1,23 @@
 package co.alexdev.weatherizer.module;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import co.alexdev.weatherizer.model.AppExecutor;
 import co.alexdev.weatherizer.model.response.CityList;
 import co.alexdev.weatherizer.network.resource.ApiResponse;
 import co.alexdev.weatherizer.network.resource.NetworkBoundsResource;
 import co.alexdev.weatherizer.network.resource.Resource;
 import co.alexdev.weatherizer.network.service.OpenWeatherService;
+import co.alexdev.weatherizer.scope.WeatherizerAppScope;
 
+@WeatherizerAppScope
 public class Repository {
 
-    private final AppExecutor mExecutor;
-    private final OpenWeatherService mService;
+    final AppExecutor mExecutor;
+    final OpenWeatherService mService;
 
     @Inject
     public Repository(AppExecutor mExecutor, OpenWeatherService service) {

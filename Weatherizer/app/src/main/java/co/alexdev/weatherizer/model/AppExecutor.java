@@ -1,4 +1,4 @@
-package co.alexdev.weatherizer.module;
+package co.alexdev.weatherizer.model;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -7,10 +7,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
+import co.alexdev.weatherizer.scope.WeatherizerAppScope;
 
-@Singleton
+@WeatherizerAppScope
 public class AppExecutor {
 
     private Executor diskIO;
@@ -22,8 +22,7 @@ public class AppExecutor {
     }
 
 
-    /*TODO CHECK*/
-    //@Inject
+    @Inject
     public AppExecutor() {
         this(Executors.newSingleThreadExecutor(),
                 new MainThreadExecutor());
