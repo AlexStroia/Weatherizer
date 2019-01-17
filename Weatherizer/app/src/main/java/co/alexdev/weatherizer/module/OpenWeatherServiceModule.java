@@ -2,6 +2,7 @@ package co.alexdev.weatherizer.module;
 
 import android.net.Uri;
 
+import co.alexdev.weatherizer.model.livedata.LiveDataCallAdapterFactory;
 import co.alexdev.weatherizer.network.service.OpenWeatherService;
 import co.alexdev.weatherizer.scope.WeatherizerAppScope;
 import dagger.Module;
@@ -23,6 +24,7 @@ public class OpenWeatherServiceModule {
         return new Retrofit.Builder()
                 .baseUrl(getEndpoint().toString())
                 .client(okHttpClient)
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

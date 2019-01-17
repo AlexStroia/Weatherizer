@@ -1,50 +1,36 @@
 package co.alexdev.weatherizer.api;
 
-import co.alexdev.weatherizer.model.weather.Main;
-import co.alexdev.weatherizer.model.weather.Wind;
+import java.util.List;
+
+import co.alexdev.weatherizer.model.weather.City;
+import co.alexdev.weatherizer.model.weather.CityList;
 
 public class CityResponse {
 
-    private String dt;
-    private Main main;
-    private Wind wind;
+    private List<CityList> cityCityList;
+    private City city;
 
-    public CityResponse(String dt, Main main, Wind wind) {
-        this.dt = dt;
-        this.main = main;
-        this.wind = wind;
+    public List<CityList> getCityCityList() {
+        return cityCityList;
     }
 
-    public String getDt() {
-        return dt;
+    public void setCityCityList(List<CityList> cityCityList) {
+        this.cityCityList = cityCityList;
     }
 
-    public void setDt(String dt) {
-        this.dt = dt;
+    public City getCity() {
+        return city;
     }
 
-    public Main getMain() {
-        return main;
-    }
-
-    public void setMain(Main main) {
-        this.main = main;
-    }
-
-    public Wind getWind() {
-        return wind;
-    }
-
-    public void setWind(Wind wind) {
-        this.wind = wind;
+    public void setCity(City city) {
+        this.city = city;
     }
 
     @Override
     public String toString() {
         return "CityResponse{" +
-                "dt='" + dt + '\'' +
-                ", main=" + main +
-                ", wind=" + wind +
+                "cityCityList=" + cityCityList +
+                ", city=" + city +
                 '}';
     }
 }

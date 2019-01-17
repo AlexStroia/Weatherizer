@@ -23,7 +23,7 @@ public class Constants {
 
     public static class API_CONSTANTS {
 
-        public static final String APP_KEY_ID = "appid=";
+        public static final String APP_KEY_ID = "appid";
         public static final String API_KEY = BuildConfig.MY_API_KEY;
 
         @Retention(RetentionPolicy.SOURCE)

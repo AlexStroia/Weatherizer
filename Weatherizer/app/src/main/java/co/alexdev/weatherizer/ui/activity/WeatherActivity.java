@@ -10,12 +10,10 @@ import android.widget.SearchView;
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import co.alexdev.weatherizer.R;
-import co.alexdev.weatherizer.api.CityResponse;
 import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
 import co.alexdev.weatherizer.component.WeatherizerAppComponent;
-import co.alexdev.weatherizer.network.resource.Resource;
+import co.alexdev.weatherizer.module.ContextModule;
 import co.alexdev.weatherizer.repo.Repository;
 import timber.log.Timber;
 
@@ -29,10 +27,13 @@ public class WeatherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
-        WeatherizerAppComponent component = DaggerWeatherizerAppComponent.builder().build();
+        WeatherizerAppComponent component = DaggerWeatherizerAppComponent.builder()
+                .contextModule(new ContextModule(this)).build();
         component.inject(this);
 
-        mRepository.loadDataForCity("PLM").observe(this, cityResponse -> { Timber.d("Response: " + cityResponse); });
+        mRepository.loadDataForCity("London").observe(this, cityResponse -> {
+            Timber.d("Response: " + cityResponse);
+        });
 
     }
 
