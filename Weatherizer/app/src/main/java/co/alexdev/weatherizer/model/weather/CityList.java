@@ -1,27 +1,36 @@
 package co.alexdev.weatherizer.model.weather;
 
+
+import java.util.List;
+
 public class CityList {
 
     private Main main;
-    private Weather weather;
+    private List<Weather> weather;
     private Wind wind;
-
-    public CityList(Main main, Weather weather, Wind wind) {
-        this.main = main;
-        this.weather = weather;
-        this.wind = wind;
-    }
 
     public Main getMain() {
         return main;
     }
 
-    public Weather getWeather() {
+    public void setMain(Main main) {
+        this.main = main;
+    }
+
+    public List<Weather> getWeather() {
         return weather;
+    }
+
+    public void setWeather(List<Weather> weather) {
+        this.weather = weather;
     }
 
     public Wind getWind() {
         return wind;
+    }
+
+    public void setWind(Wind wind) {
+        this.wind = wind;
     }
 
     @Override

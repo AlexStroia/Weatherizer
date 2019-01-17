@@ -15,7 +15,7 @@ public class WeatherizerDatabaseModule {
     @WeatherizerAppScope
     @Provides
     public WeatherDatabase provideDatabase(Context context) {
-        return Room.databaseBuilder(context, WeatherDatabase.class,WeatherDatabase.DATABASE_NAME).fallbackToDestructiveMigration().allowMainThreadQueries().build();
+        return Room.databaseBuilder(context, WeatherDatabase.class,WeatherDatabase.DATABASE_NAME).fallbackToDestructiveMigration().build();
     }
 
     @WeatherizerAppScope

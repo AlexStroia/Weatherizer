@@ -7,20 +7,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.SearchView;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import co.alexdev.weatherizer.R;
+import co.alexdev.weatherizer.api.ApiResponse;
+import co.alexdev.weatherizer.api.CityResponse;
 import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
 import co.alexdev.weatherizer.component.WeatherizerAppComponent;
+import co.alexdev.weatherizer.model.weather.City;
 import co.alexdev.weatherizer.module.ContextModule;
-import co.alexdev.weatherizer.repo.Repository;
+import co.alexdev.weatherizer.repo.AppRepository;
 import timber.log.Timber;
 
 public class WeatherActivity extends AppCompatActivity {
 
     @Inject
-    Repository mRepository;
+    AppRepository mAppRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +37,14 @@ public class WeatherActivity extends AppCompatActivity {
                 .contextModule(new ContextModule(this)).build();
         component.inject(this);
 
-        mRepository.loadDataForCity("London").observe(this, cityResponse -> {
+        mAppRepository.loadDataForCity("London").observe(this, cityResponse -> {
             Timber.d("Response: " + cityResponse);
+            Timber.d("Status: " + cityResponse.status);
+            Timber.d("Message: " + cityResponse.message);
+            if (cityResponse.data != null && cityResponse.data.size() > 0) {
+                Timber.d("City: " + cityResponse.data.toString());
+            }
         });
-
     }
 
     @Override
@@ -59,7 +69,6 @@ public class WeatherActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Timber.d(s);
                 return true;
             }
 

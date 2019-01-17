@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class City {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
     private String temp_min;

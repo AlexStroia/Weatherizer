@@ -5,14 +5,19 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import co.alexdev.weatherizer.model.weather.City;
 import co.alexdev.weatherizer.model.weather.CityList;
+import timber.log.Timber;
 
 public class AppUtils {
 
-   public static City formatData(@Nullable List<CityList> list, City city) {
+    public static City formatData(@Nullable List<CityList> list, City city) {
 
-        for(CityList cityList: list) {
-            city.setTemp_max(cityList.getMain().getTemp_max());
-            city.setTemp_min(cityList.getMain().getTemp_min());
+        if (list != null && !list.isEmpty()) {
+            for (CityList cityList : list) {
+                Timber.d("TempMax: " + cityList.getMain().getTemp_max());
+                Timber.d("TempMin: " + cityList.getMain().getTemp_min());
+                city.setTemp_max(cityList.getMain().getTemp_max());
+                city.setTemp_min(cityList.getMain().getTemp_min());
+            }
         }
         return city;
     }

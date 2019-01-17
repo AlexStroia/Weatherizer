@@ -1,5 +1,7 @@
 package co.alexdev.weatherizer.api;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import co.alexdev.weatherizer.model.weather.City;
@@ -7,6 +9,7 @@ import co.alexdev.weatherizer.model.weather.CityList;
 
 public class CityResponse {
 
+    @SerializedName("list")
     private List<CityList> cityCityList;
     private City city;
 

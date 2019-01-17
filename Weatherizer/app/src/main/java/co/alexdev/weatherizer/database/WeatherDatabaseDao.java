@@ -11,10 +11,9 @@ import co.alexdev.weatherizer.model.weather.City;
 @Dao
 public interface WeatherDatabaseDao {
 
-    @Query("SELECT * from city")
+    @Query("SELECT * from City")
     LiveData<List<City>> getAllCities();
 
     @Insert
     void insert(City...cities);
-
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import co.alexdev.weatherizer.api.ApiResponse;
 import co.alexdev.weatherizer.model.AppExecutor;
+import timber.log.Timber;
 
 public abstract class NetworkBoundsResource<ResultType, RequestType> {
 
@@ -24,8 +25,8 @@ public abstract class NetworkBoundsResource<ResultType, RequestType> {
         /*Starts to listen to the given source of the live data*/
         result.addSource(databaseSource, data -> {
             /*Set as the source for the live data the database source
-            * After remove the source and check if we should fetch new data
-            * If yes, fetch, else add the same database source */
+             * After remove the source and check if we should fetch new data
+             * If yes, fetch, else add the same database source */
             result.removeSource(databaseSource);
 
             /*If the input that we received from the Database is null, fetch new data from network
@@ -35,18 +36,10 @@ public abstract class NetworkBoundsResource<ResultType, RequestType> {
             if (shouldFetch(data)) {
                 fetchFromNetwork(databaseSource);
             } else {
-                result.addSource(databaseSource, newData -> setValue(Resource.success(newData)));
+                result.addSource(databaseSource, newData -> result.setValue(Resource.success(newData)));
             }
         });
     }
-
-    /*Check if the value is different*/
-    private void setValue(Resource<ResultType> newValue) {
-        if (!Objects.equals(result.getValue(), newValue)) {
-            result.setValue(newValue);
-        }
-    }
-
 
     /*Create a call
      * Start to listen to the result from the database and set the value to loading
@@ -59,23 +52,27 @@ public abstract class NetworkBoundsResource<ResultType, RequestType> {
     private void fetchFromNetwork(final LiveData<ResultType> databaseSource) {
         LiveData<ApiResponse<RequestType>> apiResponse = createCall();
 
-        result.addSource(databaseSource, newData -> setValue(Resource.loading(newData)));
+        result.addSource(databaseSource, newData -> result.setValue(Resource.loading(newData)));
 
         result.addSource(apiResponse, response -> {
             result.removeSource(apiResponse);
             result.removeSource(databaseSource);
 
+            Timber.d("Fetch From network:" + response.body);
+
             if (response.isSuccessful()) {
-                mExecutor.getMainThread().execute(() -> {
+                mExecutor.getDiskIO().execute(() -> {
                     saveCallResult(processResponse(response));
-                    result.addSource(loadFromDatabase(),
+                    mExecutor.getMainThread().execute(() ->
+                            result.addSource(loadFromDatabase(),
                             // we specially request a new live data,
                             // otherwise we will get immediately last cached value,
                             // which may not be updated with latest results received from network.
-                            newData -> setValue(Resource.success(newData)));
+                            newData -> result.setValue(Resource.success(newData))));
                 });
             } else {
-                result.addSource(databaseSource, newData -> setValue(Resource.error(response.errorMessage, newData)));
+                onFetchFailed();
+                result.addSource(databaseSource, newData -> result.setValue(Resource.error(response.errorMessage, newData)));
             }
         });
     }
@@ -103,6 +100,6 @@ public abstract class NetworkBoundsResource<ResultType, RequestType> {
     @MainThread
     protected abstract LiveData<ApiResponse<RequestType>> createCall();
 
-    protected void onFetchFailed() { }
-
+    protected void onFetchFailed() {
+    }
 }

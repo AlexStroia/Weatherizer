@@ -23,7 +23,7 @@ public class ApiResponse<T> {
 
         code = response.code();
 
-        if(response.isSuccessful()) {
+        if (response.isSuccessful()) {
             body = response.body();
             errorMessage = null;
         } else {
@@ -37,7 +37,7 @@ public class ApiResponse<T> {
                 }
             }
 
-            if(message == null || message.trim().length() == 0) {
+            if (message == null || message.trim().length() == 0) {
                 message = response.message();
             }
 
@@ -47,6 +47,6 @@ public class ApiResponse<T> {
     }
 
     public boolean isSuccessful() {
-        return code >200 && code < 300;
+        return code >= 200 && code < 300;
     }
 }
