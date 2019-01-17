@@ -23,7 +23,9 @@ public abstract class NetworkBoundsResource<ResultType, RequestType> {
 
         /*Starts to listen to the given source of the live data*/
         result.addSource(databaseSource, data -> {
-            /*Stops to listen to the given source */
+            /*Set as the source for the live data the database source
+            * After remove the source and check if we should fetch new data
+            * If yes, fetch, else add the same database source */
             result.removeSource(databaseSource);
 
             /*If the input that we received from the Database is null, fetch new data from network
