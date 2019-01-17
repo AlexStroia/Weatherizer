@@ -5,9 +5,18 @@ import java.util.List;
 
 public class CityList {
 
+    private String dt_txt;
     private Main main;
     private List<Weather> weather;
     private Wind wind;
+
+    public String getDt_txt() {
+        return dt_txt;
+    }
+
+    public void setDt_txt(String dt_txt) {
+        this.dt_txt = dt_txt;
+    }
 
     public Main getMain() {
         return main;

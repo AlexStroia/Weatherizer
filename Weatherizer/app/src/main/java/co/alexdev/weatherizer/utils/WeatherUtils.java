@@ -7,7 +7,7 @@ import co.alexdev.weatherizer.model.weather.City;
 import co.alexdev.weatherizer.model.weather.CityList;
 import timber.log.Timber;
 
-public class AppUtils {
+public class WeatherUtils {
 
     public static City formatData(@Nullable List<CityList> list, City city) {
 
@@ -17,6 +17,7 @@ public class AppUtils {
                 Timber.d("TempMin: " + cityList.getMain().getTemp_min());
                 city.setTemp_max(cityList.getMain().getTemp_max());
                 city.setTemp_min(cityList.getMain().getTemp_min());
+                city.setDate(cityList.getDt_txt());
             }
         }
         return city;

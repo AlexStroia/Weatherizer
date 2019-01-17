@@ -16,21 +16,21 @@ public class Resource<T> {
     @Nullable
     public final T data;
 
-    public Resource(@NonNull int status,  @Nullable T data, @Nullable String message) {
+    public Resource(@NonNull int status, @Nullable T data, @Nullable String message) {
         this.status = status;
         this.message = message;
         this.data = data;
     }
 
-    public static <T> Resource <T> success(@Nullable T data) {
-        return new Resource<>(Constants.NetworkingStatus.RESPONSE_SUCCESS, data,null);
+    public static <T> Resource<T> success(@Nullable T data) {
+        return new Resource<>(Constants.NetworkingStatus.RESPONSE_SUCCESS, data, null);
     }
 
-    public static <T> Resource <T> error(String message, @Nullable T data) {
-        return new Resource<>(Constants.NetworkingStatus.RESPONSE_ERROR, data,message);
+    public static <T> Resource<T> error(String message, @Nullable T data) {
+        return new Resource<>(Constants.NetworkingStatus.RESPONSE_ERROR, data, message);
     }
 
-    public static <T> Resource<T> loading (@Nullable T data) {
-        return new Resource<>(Constants.NetworkingStatus.RESPONSE_LOADING, data,null);
+    public static <T> Resource<T> loading(@Nullable T data) {
+        return new Resource<>(Constants.NetworkingStatus.RESPONSE_LOADING, data, null);
     }
 }

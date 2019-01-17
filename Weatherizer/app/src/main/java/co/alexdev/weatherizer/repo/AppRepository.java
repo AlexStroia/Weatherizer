@@ -16,9 +16,8 @@ import co.alexdev.weatherizer.network.resource.NetworkBoundsResource;
 import co.alexdev.weatherizer.network.resource.Resource;
 import co.alexdev.weatherizer.network.service.OpenWeatherService;
 import co.alexdev.weatherizer.scope.WeatherizerAppScope;
-import co.alexdev.weatherizer.utils.AppUtils;
+import co.alexdev.weatherizer.utils.WeatherUtils;
 import co.alexdev.weatherizer.utils.RateLimiter;
-import retrofit2.http.Query;
 import timber.log.Timber;
 
 @WeatherizerAppScope
@@ -37,21 +36,12 @@ public class AppRepository {
         this.mDao = mDao;
     }
 
-    public LiveData<List<City>> getCity() {
-        return mDao.getAllCities();
-    }
-
-    public LiveData<ApiResponse<CityResponse>> createCall() {
-        return mService.cityData("LONDON");
-    }
-
-
     public LiveData<Resource<List<City>>> loadDataForCity(String cityName) {
         return new NetworkBoundsResource<List<City>, CityResponse>(mExecutor) {
 
             @Override
             protected void saveCallResult(@NonNull CityResponse item) {
-                City city = AppUtils.formatData(item.getCityCityList(), item.getCity());
+                City city = WeatherUtils.formatData(item.getCityCityList(), item.getCity());
                 Timber.d("Inserting.. ");
                 mDao.insert(city);
             }

@@ -9,12 +9,13 @@ public class City {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private String date;
     private String name;
     private String temp_min;
     private String temp_max;
+    
     @Ignore
     private Coordonates coord;
-
 
     public int getId() {
         return id;
@@ -22,6 +23,14 @@ public class City {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getName() {
