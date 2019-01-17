@@ -1,6 +1,7 @@
 package co.alexdev.weatherizer.module;
 
 import co.alexdev.weatherizer.scope.WeatherizerAppScope;
+import co.alexdev.weatherizer.utils.Constants;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.HttpUrl;
@@ -12,6 +13,12 @@ import timber.log.Timber;
 
 @Module
 public class NetworkModule {
+
+    @Constants.API_CONSTANTS.api
+    private static String APP_ID = Constants.API_CONSTANTS.APP_KEY_ID;
+
+    @Constants.API_CONSTANTS.api
+    private static String APP_KEY_ID = Constants.API_CONSTANTS.API_KEY;
 
     @Provides
     @WeatherizerAppScope
@@ -28,7 +35,7 @@ public class NetworkModule {
             Request originalRequest = chain.request();
             HttpUrl originalHttpUrl = originalRequest.url();
 
-            HttpUrl newUrlWithApiKey = originalHttpUrl.newBuilder().addQueryParameter("API_KEY", "API_KEY_HERE").build();
+            HttpUrl newUrlWithApiKey = originalHttpUrl.newBuilder().addQueryParameter(APP_ID, APP_KEY_ID).build();
 
             Request.Builder requestBuilder = originalRequest.newBuilder().url(newUrlWithApiKey);
 

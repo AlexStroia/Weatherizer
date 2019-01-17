@@ -19,7 +19,9 @@ android {
             applicationIdSuffix ".debug"
             debuggable true
         }
-    }
+
+        buildTypes.each { it.buildConfigField 'String', 'MY_API_KEY', API_KEY } }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
