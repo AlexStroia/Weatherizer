@@ -14,6 +14,7 @@ import co.alexdev.weatherizer.network.resource.Resource;
 import co.alexdev.weatherizer.network.service.OpenWeatherService;
 import co.alexdev.weatherizer.scope.WeatherizerAppScope;
 import co.alexdev.weatherizer.utils.RateLimiter;
+import timber.log.Timber;
 
 @WeatherizerAppScope
 public class Repository {
@@ -34,17 +35,20 @@ public class Repository {
 
             @Override
             protected void saveCallResult(@NonNull CityResponse item) {
+                Timber.d("saveCallResult called");
                 //TODO INSERT TO DATABASE WHEN IT WILL BE READY
             }
 
             @Override
             protected boolean shouldFetch(@NonNull CityResponse data) {
+                Timber.d("shouldFetch called");
                 return data == null || repoCityRateLimiter.shouldFetch(cityName);
             }
 
             @NonNull
             @Override
             protected LiveData<CityResponse> loadFromDatabase() {
+                Timber.d("loadFromDatabase called");
                 // TODO LOAD FROM DB WHEN IT WILL BE READY
                 return null;
             }
@@ -52,12 +56,14 @@ public class Repository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<CityResponse>> createCall() {
+                Timber.d("createCall called");
                 return mService.cityData(cityName);
             }
 
             @Override
             protected void onFetchFailed() {
                 super.onFetchFailed();
+                Timber.d("onFetchFailed called");
                 repoCityRateLimiter.reset(cityName);
             }
         }.asLiveData();

@@ -8,10 +8,14 @@ import android.view.MenuInflater;
 import android.widget.SearchView;
 
 import javax.inject.Inject;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import co.alexdev.weatherizer.R;
+import co.alexdev.weatherizer.api.CityResponse;
 import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
 import co.alexdev.weatherizer.component.WeatherizerAppComponent;
+import co.alexdev.weatherizer.network.resource.Resource;
 import co.alexdev.weatherizer.repo.Repository;
 import timber.log.Timber;
 
@@ -28,8 +32,8 @@ public class WeatherActivity extends AppCompatActivity {
         WeatherizerAppComponent component = DaggerWeatherizerAppComponent.builder().build();
         component.inject(this);
 
+        mRepository.loadDataForCity("PLM").observe(this, cityResponse -> { Timber.d("Response: " + cityResponse); });
 
-        mRepository.loadDataForCity("PLM");
     }
 
     @Override
