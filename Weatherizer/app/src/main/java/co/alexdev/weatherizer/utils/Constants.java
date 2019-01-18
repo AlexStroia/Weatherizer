@@ -31,4 +31,9 @@ public class Constants {
         public @interface api {
         }
     }
+
+    public static class GOOGLE_MAP_VIEW {
+
+        public static final String BUNDLE_KEY = "MapViewBundleKey";
+    }
 }

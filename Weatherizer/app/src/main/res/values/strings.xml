@@ -13,4 +13,7 @@
     <string name="london">London</string>
     <string name="temp_max">Temperature max: </string>
     <string name="temp_min">Temperature min: </string>
+
+    <!--Google maps -->
+    <string name="user_location">You are here</string>
 </resources>

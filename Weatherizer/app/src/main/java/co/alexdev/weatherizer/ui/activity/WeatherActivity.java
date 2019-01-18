@@ -1,16 +1,23 @@
 package co.alexdev.weatherizer.ui.activity;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.SearchView;
-
-
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import javax.inject.Inject;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,12 +30,14 @@ import co.alexdev.weatherizer.repo.AppRepository;
 import co.alexdev.weatherizer.ui.fragment.HomeFragment;
 import timber.log.Timber;
 
-public class WeatherActivity extends AppCompatActivity {
+public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     @Inject
     AppRepository mAppRepository;
 
     private ActivityWeatherBinding mBinding;
+    private GoogleApiClient mGoogleClient;
+    private static final int PERMISSION_ACCES_COARSE_LOCATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +53,24 @@ public class WeatherActivity extends AppCompatActivity {
                 Timber.d("City: " + cityResponse.data.toString());
             }
         });
+
+        requestLocationPermission();
         changeFragment(new HomeFragment());
+    }
+
+    /*Battery management*/
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mGoogleClient != null) {
+            mGoogleClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleClient.disconnect();
     }
 
     @Override
@@ -58,6 +84,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void initView() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
+        mGoogleClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
         WeatherizerAppComponent component = DaggerWeatherizerAppComponent.builder()
                 .contextModule(new ContextModule(this)).build();
         component.inject(this);
@@ -89,6 +116,58 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void changeFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    private void requestLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_ACCES_COARSE_LOCATION);
+        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            Timber.d("called");
+            if (mGoogleClient != null) {
+                mGoogleClient.connect();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_ACCES_COARSE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Timber.d("We have permsission");
+                } else {
+                    Timber.d("We don't have permission.");
+                }
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Timber.d("onConnected called");
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            FusedLocationProviderClient location = LocationServices.getFusedLocationProviderClient(this);
+            Timber.d("onConnected permission granted called");
+
+            location.getLastLocation().addOnSuccessListener(location1 -> {
+                if (location1 != null) {
+                    double lat = location1.getLatitude();
+                    double lon = location1.getLongitude();
+                    Timber.d("User location lat: " + lat + " lon: " + lon);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Timber.d("Connection has been suspended");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Timber.d("Connection has failed");
     }
 }
