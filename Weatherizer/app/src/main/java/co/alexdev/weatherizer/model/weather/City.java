@@ -13,7 +13,7 @@ public class City {
     private String name;
     private String temp_min;
     private String temp_max;
-    
+
     @Ignore
     private Coordonates coord;
 
