@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAdWRV9mTKpEcNPdvfKTy95zFLoCxzW3lQ" />
+            android:value="XXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
 
         <activity android:name=".ui.activity.WeatherActivity">
             <intent-filter>

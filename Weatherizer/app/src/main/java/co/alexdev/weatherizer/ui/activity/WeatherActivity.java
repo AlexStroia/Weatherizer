@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.SearchView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
 import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -122,12 +125,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private void requestLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_ACCES_COARSE_LOCATION);
-        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            Timber.d("called");
-            if (mGoogleClient != null) {
-                mGoogleClient.connect();
-            }
         }
     }
 
@@ -149,6 +146,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         Timber.d("onConnected called");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             FusedLocationProviderClient location = LocationServices.getFusedLocationProviderClient(this);
+            //https://stackoverflow.com/questions/29796436/why-is-fusedlocationapi-getlastlocation-null?rq=1
             Timber.d("onConnected permission granted called");
 
             location.getLastLocation().addOnSuccessListener(location1 -> {
