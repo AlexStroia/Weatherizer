@@ -7,20 +7,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.SearchView;
 
-import java.util.List;
 
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import co.alexdev.weatherizer.R;
-import co.alexdev.weatherizer.api.ApiResponse;
-import co.alexdev.weatherizer.api.CityResponse;
 import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
 import co.alexdev.weatherizer.component.WeatherizerAppComponent;
-import co.alexdev.weatherizer.model.weather.City;
+import co.alexdev.weatherizer.databinding.ActivityWeatherBinding;
 import co.alexdev.weatherizer.module.ContextModule;
 import co.alexdev.weatherizer.repo.AppRepository;
+import co.alexdev.weatherizer.ui.fragment.HomeFragment;
 import timber.log.Timber;
 
 public class WeatherActivity extends AppCompatActivity {
@@ -28,14 +28,13 @@ public class WeatherActivity extends AppCompatActivity {
     @Inject
     AppRepository mAppRepository;
 
+    private ActivityWeatherBinding mBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather);
 
-        WeatherizerAppComponent component = DaggerWeatherizerAppComponent.builder()
-                .contextModule(new ContextModule(this)).build();
-        component.inject(this);
+        initView();
 
         mAppRepository.loadDataForCity("London").observe(this, cityResponse -> {
             Timber.d("Response: " + cityResponse);
@@ -45,6 +44,7 @@ public class WeatherActivity extends AppCompatActivity {
                 Timber.d("City: " + cityResponse.data.toString());
             }
         });
+        changeFragment(new HomeFragment());
     }
 
     @Override
@@ -54,6 +54,13 @@ public class WeatherActivity extends AppCompatActivity {
 
         setSearchView(menu);
         return true;
+    }
+
+    private void initView() {
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
+        WeatherizerAppComponent component = DaggerWeatherizerAppComponent.builder()
+                .contextModule(new ContextModule(this)).build();
+        component.inject(this);
     }
 
     private void setSearchView(Menu menu) {
@@ -78,5 +85,10 @@ public class WeatherActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment).commit();
     }
 }
