@@ -10,11 +10,11 @@ import co.alexdev.weatherizer.network.resource.Resource;
 import co.alexdev.weatherizer.repo.AppRepository;
 import timber.log.Timber;
 
-public class BaseViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel {
 
     private AppRepository mRepository;
 
-    public BaseViewModel(AppRepository mRepository) {
+    public HomeViewModel(AppRepository mRepository) {
         this.mRepository = mRepository;
     }
 

@@ -33,7 +33,7 @@ import co.alexdev.weatherizer.di.ContextModule;
 import co.alexdev.weatherizer.repo.AppRepository;
 import co.alexdev.weatherizer.ui.fragment.HomeFragment;
 import co.alexdev.weatherizer.utils.LocationUtils;
-import co.alexdev.weatherizer.viewmodel.BaseViewModel;
+import co.alexdev.weatherizer.viewmodel.HomeViewModel;
 import co.alexdev.weatherizer.viewmodel.ViewModelFactory;
 import timber.log.Timber;
 
@@ -43,7 +43,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     AppRepository mAppRepository;
 
     private ActivityWeatherBinding mBinding;
-    private BaseViewModel vm;
+    private HomeViewModel vm;
     private GoogleApiClient mGoogleClient;
     private SearchView mSearchView;
     private static final int PERMISSION_ACCES_FINE_LOCATION = 1;
@@ -89,7 +89,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 .contextModule(new ContextModule(this)).build();
         component.inject(this);
         ViewModelFactory viewModelFactory = new ViewModelFactory(mAppRepository);
-        vm = ViewModelProviders.of(this, viewModelFactory).get(BaseViewModel.class);
+        vm = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel.class);
         mGoogleClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
     }
 
