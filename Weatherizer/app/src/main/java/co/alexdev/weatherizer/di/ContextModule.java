@@ -1,4 +1,4 @@
-package co.alexdev.weatherizer.module;
+package co.alexdev.weatherizer.di;
 
 import android.content.Context;
 

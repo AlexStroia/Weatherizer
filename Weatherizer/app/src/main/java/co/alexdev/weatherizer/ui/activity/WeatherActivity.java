@@ -24,13 +24,17 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 import co.alexdev.weatherizer.R;
 import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
 import co.alexdev.weatherizer.component.WeatherizerAppComponent;
 import co.alexdev.weatherizer.databinding.ActivityWeatherBinding;
-import co.alexdev.weatherizer.module.ContextModule;
+import co.alexdev.weatherizer.di.ContextModule;
 import co.alexdev.weatherizer.repo.AppRepository;
 import co.alexdev.weatherizer.ui.fragment.HomeFragment;
+import co.alexdev.weatherizer.utils.LocationUtils;
+import co.alexdev.weatherizer.viewmodel.BaseViewModel;
+import co.alexdev.weatherizer.viewmodel.ViewModelFactory;
 import timber.log.Timber;
 
 public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -39,8 +43,10 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     AppRepository mAppRepository;
 
     private ActivityWeatherBinding mBinding;
+    private BaseViewModel vm;
     private GoogleApiClient mGoogleClient;
-    private static final int PERMISSION_ACCES_COARSE_LOCATION = 1;
+    private SearchView mSearchView;
+    private static final int PERMISSION_ACCES_FINE_LOCATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,25 +54,17 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
         initView();
 
-        mAppRepository.loadDataForCity("London").observe(this, cityResponse -> {
-            Timber.d("Response: " + cityResponse);
-            Timber.d("Status: " + cityResponse.status);
-            Timber.d("Message: " + cityResponse.message);
-            if (cityResponse.data != null && cityResponse.data.size() > 0) {
-                Timber.d("City: " + cityResponse.data.toString());
-            }
-        });
-
         requestLocationPermission();
         changeFragment(new HomeFragment());
     }
 
-    /*Battery management*/
     @Override
     protected void onStart() {
         super.onStart();
         if (mGoogleClient != null) {
-            mGoogleClient.connect();
+            if (!vm.isGoogleClinetConnected(mGoogleClient)) {
+                mGoogleClient.connect();
+            }
         }
     }
 
@@ -87,34 +85,23 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     private void initView() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
-        mGoogleClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
         WeatherizerAppComponent component = DaggerWeatherizerAppComponent.builder()
                 .contextModule(new ContextModule(this)).build();
         component.inject(this);
+        ViewModelFactory viewModelFactory = new ViewModelFactory(mAppRepository);
+        vm = ViewModelProviders.of(this, viewModelFactory).get(BaseViewModel.class);
+        mGoogleClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
     }
 
     private void setSearchView(Menu menu) {
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+        mSearchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
 
         // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconified(false); // Do not iconify the widget; expand it by default
-        searchView.setQueryHint(getResources().getString(R.string.search_country));
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                Timber.d(s);
-                return true;
-            }
-        });
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconified(false); // Do not iconify the widget; expand it by default
+        mSearchView.setQueryHint(getResources().getString(R.string.search_country));
     }
 
     private void changeFragment(Fragment fragment) {
@@ -123,8 +110,10 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     private void requestLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_ACCES_COARSE_LOCATION);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]
+                            {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSION_ACCES_FINE_LOCATION);
         }
     }
 
@@ -132,8 +121,11 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case PERMISSION_ACCES_COARSE_LOCATION:
+            case PERMISSION_ACCES_FINE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (!vm.isGoogleClinetConnected(mGoogleClient)) {
+                        mGoogleClient.connect();
+                    }
                     Timber.d("We have permsission");
                 } else {
                     Timber.d("We don't have permission.");
@@ -141,23 +133,42 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         }
     }
 
+    /*Get the user location by latitude and longitude
+     * Use helper class Location Utils to decode the locality by latitude and longitude
+     * Make a search based on user location */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Timber.d("onConnected called");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             FusedLocationProviderClient location = LocationServices.getFusedLocationProviderClient(this);
-            //https://stackoverflow.com/questions/29796436/why-is-fusedlocationapi-getlastlocation-null?rq=1
             Timber.d("onConnected permission granted called");
 
             location.getLastLocation().addOnSuccessListener(location1 -> {
                 if (location1 != null) {
-                    double lat = location1.getLatitude();
-                    double lon = location1.getLongitude();
-                    Timber.d("User location lat: " + lat + " lon: " + lon);
+                    final double lat = location1.getLatitude();
+                    final double lon = location1.getLongitude();
+
+                    final String localityName = LocationUtils.decodeLocation(this, lat, lon);
+                    startSearch(localityName);
                 }
             });
         }
     }
+
+    private void startSearch(String localityName) {
+        /*Set the top search bar to locality name */
+        mSearchView.setQuery(localityName, false);
+        /*Make a search */
+        vm.loadDataForCity(localityName).observe(this, cityResponse -> {
+            Timber.d("Response: " + cityResponse);
+            Timber.d("Status: " + cityResponse.status);
+            Timber.d("Message: " + cityResponse.message);
+            if (cityResponse.data != null && cityResponse.data.size() > 0) {
+                Timber.d("City: " + cityResponse.data.toString());
+            }
+        });
+    }
+
 
     @Override
     public void onConnectionSuspended(int i) {

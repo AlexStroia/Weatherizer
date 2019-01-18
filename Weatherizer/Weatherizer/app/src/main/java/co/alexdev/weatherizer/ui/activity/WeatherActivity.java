@@ -28,7 +28,7 @@ import co.alexdev.weatherizer.R;
 import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
 import co.alexdev.weatherizer.component.WeatherizerAppComponent;
 import co.alexdev.weatherizer.databinding.ActivityWeatherBinding;
-import co.alexdev.weatherizer.module.ContextModule;
+import co.alexdev.weatherizer.di.ContextModule;
 import co.alexdev.weatherizer.repo.AppRepository;
 import co.alexdev.weatherizer.ui.fragment.HomeFragment;
 import timber.log.Timber;

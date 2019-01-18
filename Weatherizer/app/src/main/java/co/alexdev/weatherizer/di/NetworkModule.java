@@ -1,4 +1,4 @@
-package co.alexdev.weatherizer.module;
+package co.alexdev.weatherizer.di;
 
 import co.alexdev.weatherizer.scope.WeatherizerAppScope;
 import co.alexdev.weatherizer.utils.Constants;
