@@ -23,7 +23,7 @@ public class ReminderUtils {
 
     private Context mContext;
     public static final String REMINDER_TAG = "weather_tag";
-    private static int INTERVAL_MINUTES = 1;
+    private static int INTERVAL_MINUTES = 180;
     private static int INTERVAL_MINUTES_IN_SECONDS = (int) TimeUnit.MINUTES.toSeconds(INTERVAL_MINUTES);
     private static final int SYNC_FLEXTIME_SECONDS = INTERVAL_MINUTES_IN_SECONDS;// WAIT 10 minutes and after schedule the job again
 
