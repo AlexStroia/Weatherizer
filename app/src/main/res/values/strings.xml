@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Weatherizer</string>
+
+
+    <!--Settings Screen -->
+    <string name="allow_notification">Allow notification</string>
+
+    <!--SearchView-->
+    <string name="search_country">Enter a city name here</string>
+    <string name="search">Search</string>
+
+    <!--Weather Info -->
+    <string name="london">London</string>
+    <string name="temp_max">Temperature max: </string>
+    <string name="temp_min">Temperature min: </string>
+    <string name="date_hour">Date and Hour: </string>
+    <!--Google maps -->
+    <string name="user_location">You are here</string>
+
+    <!--Navigation Drawer-->
+    <string name="home">Home</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+
+
+    <!--Keys-->
+    <string name="pref_allow_notification">allow_notification</string>
+
+    <!--History-->
+    <string name="historyText">London</string>
+
+    <!--Notifications-->
+    <string name="notificationTitle">Your weather for the day</string>
+    <string name="your_weather">Checkout the weather for today!</string>
+</resources>
