@@ -25,8 +25,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import co.alexdev.weatherizer.R;
-import co.alexdev.weatherizer.component.DaggerWeatherizerAppComponent;
-import co.alexdev.weatherizer.component.WeatherizerAppComponent;
+import co.alexdev.weatherizer.di.component.DaggerWeatherizerAppComponent;
+import co.alexdev.weatherizer.di.component.WeatherizerAppComponent;
 import co.alexdev.weatherizer.databinding.ActivityWeatherBinding;
 import co.alexdev.weatherizer.di.ContextModule;
 import co.alexdev.weatherizer.repo.AppRepository;
@@ -38,13 +38,13 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     @Inject
     AppRepository mAppRepository;
 
-    private ActivityWeatherBinding mBinding;
     private GoogleApiClient mGoogleClient;
     private static final int PERMISSION_ACCES_COARSE_LOCATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(this, R.layout.activity_weather);
 
         initView();
 
@@ -86,7 +86,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     private void initView() {
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
         mGoogleClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
         WeatherizerAppComponent component = DaggerWeatherizerAppComponent.builder()
                 .contextModule(new ContextModule(this)).build();

@@ -1,17 +1,44 @@
 package co.alexdev.weatherizer.model.weather;
 
-public class Weather {
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
+public final class Weather {
+
+    @PrimaryKey(autoGenerate = true)
+    private int room_id;
+    private int city_id;
     private int id;
     private String main;
     private String description;
     private String icon;
+    private String date_txt;
 
-    public Weather(int id, String main, String description, String icon) {
+    public Weather(int room_id, int city_id, int id, String main, String description, String icon, String date_txt) {
+        this.room_id = room_id;
+        this.city_id = city_id;
         this.id = id;
         this.main = main;
         this.description = description;
         this.icon = icon;
+        this.date_txt = date_txt;
+    }
+
+    public int getRoom_id() {
+        return room_id;
+    }
+
+    public void setRoom_id(int room_id) {
+        this.room_id = room_id;
+    }
+
+    public int getCity_id() {
+        return city_id;
+    }
+
+    public void setCity_id(int city_id) {
+        this.city_id = city_id;
     }
 
     public int getId() {
@@ -46,13 +73,24 @@ public class Weather {
         this.icon = icon;
     }
 
+    public String getDate_txt() {
+        return date_txt;
+    }
+
+    public void setDate_txt(String date_txt) {
+        this.date_txt = date_txt;
+    }
+
     @Override
     public String toString() {
         return "Weather{" +
-                "id=" + id +
+                "room_id=" + room_id +
+                ", city_id=" + city_id +
+                ", id=" + id +
                 ", main='" + main + '\'' +
                 ", description='" + description + '\'' +
                 ", icon='" + icon + '\'' +
+                ", date_txt='" + date_txt + '\'' +
                 '}';
     }
 }

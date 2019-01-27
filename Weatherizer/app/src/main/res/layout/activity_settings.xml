@@ -6,4 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.SettingsActivity">
 
+    <fragment
+        android:id="@+id/fragment"
+        android:name="co.alexdev.weatherizer.ui.fragment.SettingsFragment"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="@dimen/_0dp"
+        android:layout_marginStart="@dimen/_8dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:layout_marginEnd="@dimen/_8dp"
+        android:layout_marginBottom="@dimen/_8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

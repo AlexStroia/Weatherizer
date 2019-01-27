@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreference android:defaultValue="false"
-       android:title="@string/allow_location"
-        />
+    <SwitchPreference
+        android:defaultValue="@bool/allow_location_default_value"
+        android:key="@string/pref_allow_notification"
+        android:title="@string/allow_notification"
+        app:itemTextColor="@color/colorPrimary" />
 
 </PreferenceScreen>

@@ -1,6 +1,6 @@
 package co.alexdev.weatherizer.model.weather;
 
-public class Wind {
+public final class Wind {
 
     private float speed;
 

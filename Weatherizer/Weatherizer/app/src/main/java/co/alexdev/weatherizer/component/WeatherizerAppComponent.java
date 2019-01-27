@@ -1,4 +1,4 @@
-package co.alexdev.weatherizer.component;
+package co.alexdev.weatherizer.di.component;
 
 import co.alexdev.weatherizer.di.OpenWeatherServiceModule;
 import co.alexdev.weatherizer.di.WeatherizerDatabaseModule;

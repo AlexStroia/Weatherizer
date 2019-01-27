@@ -3,7 +3,7 @@ package co.alexdev.weatherizer.model.weather;
 
 import java.util.List;
 
-public class CityList {
+public final class CityList {
 
     private String dt_txt;
     private Main main;

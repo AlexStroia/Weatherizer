@@ -5,14 +5,14 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class City {
+public final class City {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String date;
     private String name;
-    private String temp_min;
-    private String temp_max;
+    private double temp_min;
+    private double temp_max;
 
     @Ignore
     private Coordonates coord;
@@ -41,19 +41,19 @@ public class City {
         this.name = name;
     }
 
-    public String getTemp_min() {
+    public double getTemp_min() {
         return temp_min;
     }
 
-    public void setTemp_min(String temp_min) {
+    public void setTemp_min(double temp_min) {
         this.temp_min = temp_min;
     }
 
-    public String getTemp_max() {
+    public double getTemp_max() {
         return temp_max;
     }
 
-    public void setTemp_max(String temp_max) {
+    public void setTemp_max(double temp_max) {
         this.temp_max = temp_max;
     }
 

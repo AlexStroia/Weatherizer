@@ -8,3 +8,4 @@ General App Usage
     App conforms to common standards found in the Android Nanodegree General Project Guidelines.\
     App uses a is making use of Google Arhitecture Components
     App uses NetworkBoundsResource helper class
+# Weatherizer

@@ -3,19 +3,19 @@ package co.alexdev.weatherizer.utils;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
-import android.text.TextUtils;
-
 import java.io.IOException;
 import java.util.List;
 
+import co.alexdev.weatherizer.scope.WeatherizerAppScope;
 
+
+
+@WeatherizerAppScope
 public class LocationUtils {
 
-    private static Geocoder mGeocoder;
-
-    public static String decodeLocation(Context context, double latitude, double longitude) {
+    public String decodeLocation(Context context, double latitude, double longitude) {
         String localityName = "";
-        mGeocoder = new Geocoder(context);
+        Geocoder mGeocoder = new Geocoder(context);
         List<Address> addressList;
         try {
             addressList = mGeocoder.getFromLocation(latitude, longitude, 1);

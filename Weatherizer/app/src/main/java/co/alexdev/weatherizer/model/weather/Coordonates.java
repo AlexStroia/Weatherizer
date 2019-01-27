@@ -1,36 +1,52 @@
 package co.alexdev.weatherizer.model.weather;
 
-public class Coordonates {
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    private String lat;
-    private String lon;
+@Entity
+public final class Coordonates {
 
-    public Coordonates(String lat, String lon) {
+    @PrimaryKey
+    private int city_id;
+    private double lat;
+    private double lon;
+
+    public Coordonates(int city_id, double lat, double lon) {
+        this.city_id = city_id;
         this.lat = lat;
         this.lon = lon;
     }
 
-    public String getLat() {
+    public int getCity_id() {
+        return city_id;
+    }
+
+    public void setCity_id(int city_id) {
+        this.city_id = city_id;
+    }
+
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public String getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(String lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
     @Override
     public String toString() {
         return "Coordonates{" +
-                "lat='" + lat + '\'' +
-                ", lon='" + lon + '\'' +
+                "city_id=" + city_id +
+                ", lat=" + lat +
+                ", lon=" + lon +
                 '}';
     }
 }
